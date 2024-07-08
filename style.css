@@ -60,6 +60,17 @@ button:disabled {
     cursor: not-allowed;
 }
 
+#messages {
+    margin-top: 20px;
+    font-weight: bold;
+    color: #e74c3c;
+}
+
+#dealer-hand, #player-hand {
+    margin-top: 15px;
+    font-size: 18px;
+}
+
 .rules ul {
     padding-left: 20px;
 }

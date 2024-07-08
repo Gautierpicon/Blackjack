@@ -3,16 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blackjack</title>
+    <title>Blackjack Casino</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <!-- Zone de jeu -->
         <div class="game-area">
-            <h1>Blackjack</h1>
-            <input type="number" id="bet-input" min="1" max="1000" placeholder="Entrez votre mise">
-            <button id="place-bet-button">Placer la mise</button>
+            <h1>Blackjack Casino</h1>
             <div id="dealer-hand">
                 <h2>Main du croupier: <span id="dealer-total"></span></h2>
                 <div class="cards-container" id="dealer-cards"></div>
@@ -21,10 +18,11 @@
                 <h2>Votre main: <span id="player-total"></span></h2>
                 <div class="cards-container" id="player-cards"></div>
             </div>
+            <div id="messages"></div>
             <button id="hit-button">Tirer</button>
             <button id="stand-button">Rester</button>
+            <button id="new-game-button">Nouvelle partie</button>
         </div>
-        <!-- Section des règles -->
         <div class="rules">
             <h2>Règles du Blackjack</h2>
             <ul>
