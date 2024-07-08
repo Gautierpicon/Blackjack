@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blackjack</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Zone de jeu -->
+        <div class="game-area">
+            <h1>Blackjack</h1>
+            <input type="number" id="bet-input" min="1" max="1000" placeholder="Entrez votre mise">
+            <button id="place-bet-button">Placer la mise</button>
+            <div id="dealer-hand">
+                <h2>Main du croupier: <span id="dealer-total"></span></h2>
+                <div class="cards-container" id="dealer-cards"></div>
+            </div>
+            <div id="player-hand">
+                <h2>Votre main: <span id="player-total"></span></h2>
+                <div class="cards-container" id="player-cards"></div>
+            </div>
+            <button id="hit-button">Tirer</button>
+            <button id="stand-button">Rester</button>
+        </div>
+        <!-- Section des règles -->
+        <div class="rules">
+            <h2>Règles du Blackjack</h2>
+            <ul>
+                <li>Le but est d'avoir une main plus proche de 21 que le croupier sans dépasser 21.</li>
+                <li>Les cartes numérotées valent leur valeur faciale.</li>
+                <li>Les figures (J, Q, K) valent 10.</li>
+                <li>L'As vaut 1 ou 11, selon ce qui est le plus avantageux.</li>
+                <li>Dépasser 21 points entraîne une défaite immédiate.</li>
+                <li>Le croupier doit tirer jusqu'à 16 et rester à 17.</li>
+            </ul>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
