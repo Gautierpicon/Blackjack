@@ -90,5 +90,19 @@ button:disabled {
 }
 
 .rules li {
-    margin-bottom: 10px;
+    margin-bottom: 25px;
+}
+
+/* Styles pour les cartes de cœur et carreau en rouge */
+.red-card {
+    color: red;
+}
+
+/* Nouveau style pour le lien dans les règles */
+.rules a {
+    color: #000000; /* Utilise la même couleur que le fond du body */
+}
+
+.rules a:hover {
+    text-decoration: underline; /* Ajoute un soulignement au survol */
 }

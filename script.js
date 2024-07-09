@@ -112,6 +112,18 @@ function evaluateGame() {
     }
 }
 
+// Vérification du Blackjack
+function checkForBlackjack() {
+    if (calculateHandValue(playerHand) === 21) {
+        endGame("Blackjack ! Vous avez gagné !", currentBet * 2.5);
+        return true;
+    } else if (calculateHandValue(dealerHand) === 21) {
+        endGame("Le croupier a un Blackjack. Vous avez perdu.", -currentBet);
+        return true;
+    }
+    return false;
+}
+
 // Action de rester pour le joueur
 function playerStand() {
     hitButton.disabled = true;
@@ -188,6 +200,7 @@ function placeBet() {
 function enableBetting() {
     betInput.disabled = false;
     placeBetButton.disabled = false;
+    betInput.value = '';
 }
 
 // Désactiver les éléments de mise
