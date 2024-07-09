@@ -5,12 +5,17 @@ const dealerTotal = document.getElementById('dealer-total');
 const playerTotal = document.getElementById('player-total');
 const hitButton = document.getElementById('hit-button');
 const standButton = document.getElementById('stand-button');
-const newGameButton = document.getElementById('new-game-button');
 const messages = document.getElementById('messages');
+const balanceAmount = document.getElementById('balance-amount');
+const betAmount = document.getElementById('bet-amount');
+const betInput = document.getElementById('bet-input');
+const placeBetButton = document.getElementById('place-bet-button');
 
 let deck = [];
 let dealerHand = [];
 let playerHand = [];
+let balance = 300;
+let currentBet = 0;
 
 // Création du deck
 function createDeck() {
@@ -62,16 +67,13 @@ function calculateHandValue(hand) {
 }
 
 // Mise à jour de l'affichage
-function updateDisplay(hideDealer = true) {
-    dealerCards.innerHTML = dealerHand.map((card, index) => 
-        hideDealer && index === 1 
-            ? '<span class="hidden-card">🂠</span>'
-            : `<span class="${['♥', '♦'].includes(card.suit) ? 'red-card' : ''}">${card.value}${card.suit}</span>`
-    ).join(' ');
+function updateDisplay() {
+    dealerCards.innerHTML = dealerHand.map(card => `<span class="${['♥', '♦'].includes(card.suit) ? 'red-card' : ''}">${card.value}${card.suit}</span>`).join(' ');
     playerCards.innerHTML = playerHand.map(card => `<span class="${['♥', '♦'].includes(card.suit) ? 'red-card' : ''}">${card.value}${card.suit}</span>`).join(' ');
-    
-    dealerTotal.textContent = hideDealer ? `Total: ${calculateHandValue([dealerHand[0]])}` : `Total: ${calculateHandValue(dealerHand)}`;
+    dealerTotal.textContent = `Total: ${calculateHandValue(dealerHand)}`;
     playerTotal.textContent = `Total: ${calculateHandValue(playerHand)}`;
+    balanceAmount.textContent = balance;
+    betAmount.textContent = currentBet;
 }
 
 // Action de tirer une carte pour le joueur
@@ -80,20 +82,18 @@ function playerHit() {
     updateDisplay();
     
     if (calculateHandValue(playerHand) > 21) {
-        endGame("Vous avez dépassé 21. Vous avez perdu.");
+        endGame("Vous avez dépassé 21. Vous avez perdu.", -currentBet);
     }
 }
 
-// Action de rester pour le joueur
-function playerStand() {
-    updateDisplay(false);
-    
-    while (calculateHandValue(dealerHand) < 17) {
-        dealerHand.push(dealCard());
-        updateDisplay(false);
+// Affichage des cartes du croupier tour par tour
+function revealDealerCard(index) {
+    if (index < dealerHand.length) {
+        updateDisplay();
+        setTimeout(() => revealDealerCard(index + 1), 1000);
+    } else {
+        evaluateGame();
     }
-    
-    evaluateGame();
 }
 
 // Evaluation du jeu après le tour du croupier
@@ -102,22 +102,43 @@ function evaluateGame() {
     const dealerValue = calculateHandValue(dealerHand);
     
     if (dealerValue > 21) {
-        endGame("Le croupier a dépassé 21. Vous avez gagné !");
+        endGame("Le croupier a dépassé 21. Vous avez gagné !", currentBet);
     } else if (playerValue > dealerValue) {
-        endGame("Vous avez gagné !");
+        endGame("Vous avez gagné !", currentBet);
     } else if (playerValue < dealerValue) {
-        endGame("Vous avez perdu.");
+        endGame("Vous avez perdu.", -currentBet);
     } else {
-        endGame("Égalité !");
+        endGame("Égalité !", 0);
     }
 }
 
+// Action de rester pour le joueur
+function playerStand() {
+    hitButton.disabled = true;
+    standButton.disabled = true;
+    
+    function revealCards() {
+        if (calculateHandValue(dealerHand) < 17) {
+            dealerHand.push(dealCard());
+            updateDisplay();
+            setTimeout(revealCards, 1000);
+        } else {
+            evaluateGame();
+        }
+    }
+    
+    revealCards();
+}
+
 // Fin du jeu
-function endGame(message) {
+function endGame(message, betResult) {
     messages.textContent = message;
     hitButton.disabled = true;
     standButton.disabled = true;
-    newGameButton.disabled = false;
+    balance += betResult;
+    currentBet = 0;
+    updateDisplay();
+    enableBetting();
 }
 
 // Démarrer une nouvelle partie
@@ -130,20 +151,58 @@ function startNewGame() {
     createDeck();
     shuffleDeck();
     
-    dealerHand.push(dealCard(), dealCard());
-    playerHand.push(dealCard(), dealCard());
+    dealerHand.push(dealCard());
+    playerHand.push(dealCard());
+    dealerHand.push(dealCard());
+    playerHand.push(dealCard());
     
     updateDisplay();
     
     hitButton.disabled = false;
     standButton.disabled = false;
-    newGameButton.disabled = true;
+    
+    if (checkForBlackjack()) {
+        hitButton.disabled = true;
+        standButton.disabled = true;
+        enableBetting();
+    }
+}
+
+// Placer une mise
+function placeBet() {
+    const betValue = parseInt(betInput.value);
+    if (isNaN(betValue) || betValue <= 0 || betValue > balance) {
+        messages.textContent = "Mise invalide. Veuillez entrer un montant valide.";
+        return;
+    }
+    
+    currentBet = betValue;
+    balance -= currentBet;
+    updateDisplay();
+    
+    disableBetting();
+    startNewGame();
+}
+
+// Activer les éléments de mise
+function enableBetting() {
+    betInput.disabled = false;
+    placeBetButton.disabled = false;
+}
+
+// Désactiver les éléments de mise
+function disableBetting() {
+    betInput.disabled = true;
+    placeBetButton.disabled = true;
 }
 
 // Ajout des écouteurs d'événements pour les boutons
 hitButton.addEventListener('click', playerHit);
 standButton.addEventListener('click', playerStand);
-newGameButton.addEventListener('click', startNewGame);
+placeBetButton.addEventListener('click', placeBet);
 
 // Initialisation du jeu
-startNewGame();
+updateDisplay();
+enableBetting();
+hitButton.disabled = true;
+standButton.disabled = true;

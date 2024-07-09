@@ -8,8 +8,13 @@
 </head>
 <body>
     <div class="container">
+        <!-- Zone de jeu -->
         <div class="game-area">
             <h1>Blackjack Casino</h1>
+            <div id="balance">Solde: $<span id="balance-amount">300</span></div>
+            <div id="bet">Mise: $<span id="bet-amount">0</span></div>
+            <input type="number" id="bet-input" min="1" max="300" placeholder="Entrez votre mise">
+            <button id="place-bet-button">Placer la mise</button>
             <div id="dealer-hand">
                 <h2>Main du croupier: <span id="dealer-total"></span></h2>
                 <div class="cards-container" id="dealer-cards"></div>
@@ -23,6 +28,7 @@
             <button id="stand-button">Rester</button>
             <button id="new-game-button">Nouvelle partie</button>
         </div>
+         <!-- Section des règles -->
         <div class="rules">
             <h2>Règles du Blackjack</h2>
             <ul>

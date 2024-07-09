@@ -1,3 +1,4 @@
+/* Styles généraux */
 body {
     font-family: Arial, sans-serif;
     background-color: #be0000;
@@ -24,7 +25,6 @@ body {
     border-radius: 10px;
     flex: 1;
     min-width: 300px;
-    margin-bottom: 20px;
 }
 
 .rules {
@@ -52,7 +52,7 @@ button {
 }
 
 button:hover {
-    background-color: #000000;
+    background-color: #490b0b;
 }
 
 button:disabled {
@@ -64,6 +64,20 @@ button:disabled {
     margin-top: 20px;
     font-weight: bold;
     color: #e74c3c;
+}
+
+#balance, #bet {
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+#bet-input {
+    padding: 10px;
+    font-size: 16px;
+    margin-right: 10px;
+    border-radius: 5px;
+    border: 2px solid;
+    width: 145px;
 }
 
 #dealer-hand, #player-hand {
