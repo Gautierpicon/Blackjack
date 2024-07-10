@@ -1,15 +1,16 @@
-// Récupération des éléments DOM
+// DOM elements
+const messages = document.getElementById('messages');
+const betInput = document.getElementById('bet-input');
+const betAmount = document.getElementById('bet-amount');
+const hitButton = document.getElementById('hit-button');
 const dealerCards = document.getElementById('dealer-cards');
 const playerCards = document.getElementById('player-cards');
 const dealerTotal = document.getElementById('dealer-total');
 const playerTotal = document.getElementById('player-total');
-const hitButton = document.getElementById('hit-button');
 const standButton = document.getElementById('stand-button');
-const messages = document.getElementById('messages');
 const balanceAmount = document.getElementById('balance-amount');
-const betAmount = document.getElementById('bet-amount');
-const betInput = document.getElementById('bet-input');
 const placeBetButton = document.getElementById('place-bet-button');
+const surrenderButton = document.getElementById('surrender-button');
 
 let deck = [];
 let dealerHand = [];
@@ -17,7 +18,7 @@ let playerHand = [];
 let balance = 300;
 let currentBet = 0;
 
-// Création du deck
+// Deck creation
 function createDeck() {
     const suits = ['♠', '♥', '♦', '♣'];
     const values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
@@ -29,7 +30,7 @@ function createDeck() {
     }
 }
 
-// Mélange du deck
+// Deck shuffling
 function shuffleDeck() {
     for (let i = deck.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -37,12 +38,12 @@ function shuffleDeck() {
     }
 }
 
-// Distribution d'une carte
+// Dealing a card
 function dealCard() {
     return deck.pop();
 }
 
-// Calcul de la valeur d'une main
+// Calculating the value of a hand
 function calculateHandValue(hand) {
     let value = 0;
     let aces = 0;
@@ -66,7 +67,7 @@ function calculateHandValue(hand) {
     return value;
 }
 
-// Mise à jour de l'affichage
+// Updating the display
 function updateDisplay() {
     dealerCards.innerHTML = dealerHand.map(card => `<span class="${['♥', '♦'].includes(card.suit) ? 'red-card' : ''}">${card.value}${card.suit}</span>`).join(' ');
     playerCards.innerHTML = playerHand.map(card => `<span class="${['♥', '♦'].includes(card.suit) ? 'red-card' : ''}">${card.value}${card.suit}</span>`).join(' ');
@@ -76,17 +77,30 @@ function updateDisplay() {
     betAmount.textContent = currentBet;
 }
 
-// Action de tirer une carte pour le joueur
+// Checking for Blackjack
+function checkForBlackjack() {
+    if (calculateHandValue(playerHand) === 21) {
+        endGame("Blackjack! You win!", Math.floor(currentBet * 2.5));
+        return true;
+    } else if (calculateHandValue(dealerHand) === 21) {
+        endGame("Dealer has a Blackjack. You lose.", Math.floor(currentBet - currentBet));
+        return true;
+    }
+    return false;
+}
+
+// Player hits a card
 function playerHit() {
     playerHand.push(dealCard());
     updateDisplay();
     
     if (calculateHandValue(playerHand) > 21) {
-        endGame("Vous avez dépassé 21. Vous avez perdu.", -currentBet);
+        endGame("You exceeded 21. You lose.", Math.floor(currentBet - currentBet));
     }
+    surrenderButton.disabled = true;
 }
 
-// Affichage des cartes du croupier tour par tour
+// Revealing dealer cards one by one
 function revealDealerCard(index) {
     if (index < dealerHand.length) {
         updateDisplay();
@@ -96,38 +110,27 @@ function revealDealerCard(index) {
     }
 }
 
-// Evaluation du jeu après le tour du croupier
+// Evaluating the game after the dealer's turn
 function evaluateGame() {
     const playerValue = calculateHandValue(playerHand);
     const dealerValue = calculateHandValue(dealerHand);
     
     if (dealerValue > 21) {
-        endGame("Le croupier a dépassé 21. Vous avez gagné !", currentBet);
+        endGame("Dealer exceeded 21. You win!", Math.floor(currentBet * 2));
     } else if (playerValue > dealerValue) {
-        endGame("Vous avez gagné !", currentBet);
+        endGame("You win!", Math.floor(currentBet * 2));
     } else if (playerValue < dealerValue) {
-        endGame("Vous avez perdu.", -currentBet);
+        endGame("You lose.", Math.floor(currentBet - currentBet));
     } else {
-        endGame("Égalité !", 0);
+        endGame("Push!", currentBet);
     }
 }
 
-// Vérification du Blackjack
-function checkForBlackjack() {
-    if (calculateHandValue(playerHand) === 21) {
-        endGame("Blackjack ! Vous avez gagné !", currentBet * 2.5);
-        return true;
-    } else if (calculateHandValue(dealerHand) === 21) {
-        endGame("Le croupier a un Blackjack. Vous avez perdu.", -currentBet);
-        return true;
-    }
-    return false;
-}
-
-// Action de rester pour le joueur
+// Player stands
 function playerStand() {
     hitButton.disabled = true;
     standButton.disabled = true;
+    surrenderButton.disabled = true;
     
     function revealCards() {
         if (calculateHandValue(dealerHand) < 17) {
@@ -142,18 +145,29 @@ function playerStand() {
     revealCards();
 }
 
-// Fin du jeu
+// Player surrenders
+function surrender() {
+    if (playerHand.length !== 2) {
+        messages.textContent = "Surrender is only allowed with the initial two cards.";
+        return;
+    }
+    
+    endGame("You surrendered. You get half of your bet back.", Math.floor(currentBet / 2));
+}
+
+// End of the game
 function endGame(message, betResult) {
     messages.textContent = message;
     hitButton.disabled = true;
     standButton.disabled = true;
+    surrenderButton.disabled = true;
     balance += betResult;
     currentBet = 0;
     updateDisplay();
     enableBetting();
 }
 
-// Démarrer une nouvelle partie
+// Starting a new game
 function startNewGame() {
     deck = [];
     dealerHand = [];
@@ -172,50 +186,52 @@ function startNewGame() {
     
     hitButton.disabled = false;
     standButton.disabled = false;
+    surrenderButton.disabled = false;
     
     if (checkForBlackjack()) {
         hitButton.disabled = true;
         standButton.disabled = true;
+        surrenderButton.disabled = true;
         enableBetting();
     }
 }
 
-// Placer une mise
+// Placing a bet
 function placeBet() {
     const betValue = parseInt(betInput.value);
-    if (isNaN(betValue) || betValue <= 0 || betValue > balance) {
-        messages.textContent = "Mise invalide. Veuillez entrer un montant valide.";
+    if (isNaN(betValue) || betValue <= 0) {
+        messages.textContent = "Invalid bet. Please enter a valid amount.";
         return;
     }
     
     currentBet = betValue;
     balance -= currentBet;
     updateDisplay();
-    
     disableBetting();
     startNewGame();
 }
 
-// Activer les éléments de mise
+// Enable betting elements
 function enableBetting() {
     betInput.disabled = false;
     placeBetButton.disabled = false;
-    betInput.value = '';
 }
 
-// Désactiver les éléments de mise
+// Disable betting elements
 function disableBetting() {
     betInput.disabled = true;
     placeBetButton.disabled = true;
 }
 
-// Ajout des écouteurs d'événements pour les boutons
+// Adding event listeners for buttons
 hitButton.addEventListener('click', playerHit);
-standButton.addEventListener('click', playerStand);
 placeBetButton.addEventListener('click', placeBet);
+standButton.addEventListener('click', playerStand);
+surrenderButton.addEventListener('click', surrender);
 
-// Initialisation du jeu
+// Initializing the game
 updateDisplay();
 enableBetting();
 hitButton.disabled = true;
 standButton.disabled = true;
+surrenderButton.disabled = true;

@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blackjack Casino</title>
+    <title>Github</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <!-- Zone de jeu -->
+        <!-- Game section -->
         <div class="game-area">
             <h1>Blackjack Casino</h1>
             <div id="balance">Solde: $<span id="balance-amount">300</span></div>
@@ -26,8 +26,9 @@
             <div id="messages"></div>
             <button id="hit-button">Tirer</button>
             <button id="stand-button">Rester</button>
+            <button id="surrender-button">Abandonner</button>
         </div>
-         <!-- Section des règles -->
+         <!-- Rule section -->
         <div class="rules">
             <h2>Règles du Blackjack</h2>
             <ul>
@@ -36,9 +37,10 @@
                     Les cartes numérotées valent leur valeur faciale, <br>
                     Les buches (J, Q, K) valent 10, <br>
                     L'As vaut 1 ou 11, selon ce qui est le plus avantageux.</li>
-                <li>Le croupier doit tirer jusqu'à 16 et rester à 17</li>
-                <li>Un blackjack est la situation gagnante où une main reçoit, dès le début du jeu, un as et une bûche (le total vaut donc 21 et ne peut pas être dépassé).</li>
-                <li>Pour une meilleure compréhension des règles: <a href="https://fr.wikipedia.org/wiki/Blackjack_(jeu)#But_du_jeu" target="_blank">wikipédia.com</a></li>
+                <li>Le croupier ne peut plus tirer une fois arrivé à un score de 17 ou plus</li>
+                <li>L'action "Abandonner" permet de mettre fin à la partie tout en récupérant la moitié de sa mise. Cette action est possible uniquement en début de partie.</li>
+                <li>Un blackjack est la situation où une main reçoit, dès le début du jeu, un as et une bûche (le total vaut donc 21 et ne peut pas être dépassé).</li>
+                <li>Pour une meilleure compréhension des règles, <a href="https://fr.wikipedia.org/wiki/Blackjack_(jeu)#Règles" target="_blank">cliquez ici</a></li>
             </ul>
         </div>
     </div>
