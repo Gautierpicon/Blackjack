@@ -1,16 +1,16 @@
 // Récupération des éléments DOM
+const messages = document.getElementById('messages');
+const betInput = document.getElementById('bet-input');
+const betAmount = document.getElementById('bet-amount');
+const hitButton = document.getElementById('hit-button');
 const dealerCards = document.getElementById('dealer-cards');
 const playerCards = document.getElementById('player-cards');
 const dealerTotal = document.getElementById('dealer-total');
 const playerTotal = document.getElementById('player-total');
-const hitButton = document.getElementById('hit-button');
 const standButton = document.getElementById('stand-button');
-const surrenderButton = document.getElementById('surrender-button');
-const messages = document.getElementById('messages');
 const balanceAmount = document.getElementById('balance-amount');
-const betAmount = document.getElementById('bet-amount');
-const betInput = document.getElementById('bet-input');
 const placeBetButton = document.getElementById('place-bet-button');
+const surrenderButton = document.getElementById('surrender-button');
 
 let deck = [];
 let dealerHand = [];
@@ -199,7 +199,7 @@ function startNewGame() {
 // Placer une mise
 function placeBet() {
     const betValue = parseInt(betInput.value);
-    if (isNaN(betValue) || betValue <= 0 || betValue > balance) {
+    if (isNaN(betValue) || betValue <= 0) {
         messages.textContent = "Mise invalide. Veuillez entrer un montant valide.";
         return;
     }
@@ -207,7 +207,6 @@ function placeBet() {
     currentBet = betValue;
     balance -= currentBet;
     updateDisplay();
-    
     disableBetting();
     startNewGame();
 }
@@ -226,9 +225,9 @@ function disableBetting() {
 
 // Ajout des écouteurs d'événements pour les boutons
 hitButton.addEventListener('click', playerHit);
+placeBetButton.addEventListener('click', placeBet);
 standButton.addEventListener('click', playerStand);
 surrenderButton.addEventListener('click', surrender);
-placeBetButton.addEventListener('click', placeBet);
 
 // Initialisation du jeu
 updateDisplay();
