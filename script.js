@@ -80,10 +80,10 @@ function updateDisplay() {
 // Checking for Blackjack
 function checkForBlackjack() {
     if (calculateHandValue(playerHand) === 21) {
-        endGame("Blackjack! You win!", Math.floor(currentBet * 2.5));
+        endGame("Blackjack ! Vous avez gagné!", Math.floor(currentBet * 2.5));
         return true;
     } else if (calculateHandValue(dealerHand) === 21) {
-        endGame("Dealer has a Blackjack. You lose.", Math.floor(currentBet - currentBet));
+        endGame("Le croupier a un Blackjack. Vous avez perdu.", Math.floor(currentBet - currentBet));
         return true;
     }
     return false;
@@ -95,7 +95,7 @@ function playerHit() {
     updateDisplay();
     
     if (calculateHandValue(playerHand) > 21) {
-        endGame("You exceeded 21. You lose.", Math.floor(currentBet - currentBet));
+        endGame("Vous avez dépassé 21. Vous avez perdu.", Math.floor(currentBet - currentBet));
     }
     surrenderButton.disabled = true;
 }
@@ -116,13 +116,13 @@ function evaluateGame() {
     const dealerValue = calculateHandValue(dealerHand);
     
     if (dealerValue > 21) {
-        endGame("Dealer exceeded 21. You win!", Math.floor(currentBet * 2));
+        endGame("Le croupier a dépassé 21. Vous avez gagné !", Math.floor(currentBet * 2));
     } else if (playerValue > dealerValue) {
-        endGame("You win!", Math.floor(currentBet * 2));
+        endGame("Vous avez gagné !", Math.floor(currentBet * 2));
     } else if (playerValue < dealerValue) {
-        endGame("You lose.", Math.floor(currentBet - currentBet));
+        endGame("Vous avez perdu.", Math.floor(currentBet - currentBet));
     } else {
-        endGame("Push!", currentBet);
+        endGame("Égalité !", currentBet);
     }
 }
 
@@ -148,11 +148,11 @@ function playerStand() {
 // Player surrenders
 function surrender() {
     if (playerHand.length !== 2) {
-        messages.textContent = "Surrender is only allowed with the initial two cards.";
+        messages.textContent = "l'abandon n'est autorisée qu'avec les deux cartes initiales.";
         return;
     }
     
-    endGame("You surrendered. You get half of your bet back.", Math.floor(currentBet / 2));
+    endGame("Vous avez abandonnez, je reprennez la moitié de votre mise", Math.floor(currentBet / 2));
 }
 
 // End of the game
@@ -200,7 +200,7 @@ function startNewGame() {
 function placeBet() {
     const betValue = parseInt(betInput.value);
     if (isNaN(betValue) || betValue <= 0) {
-        messages.textContent = "Invalid bet. Please enter a valid amount.";
+        messages.textContent = "Mise invalide. Veuillez saisir un montant valide.";
         return;
     }
     
