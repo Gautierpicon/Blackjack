@@ -72,8 +72,8 @@ function calculateHandValue(hand) {
 function updateDisplay() {
     dealerCards.innerHTML = dealerHand.map(card => `<span class="${['♥', '♦'].includes(card.suit) ? 'red-card' : ''}">${card.value}${card.suit}</span>`).join(' ');
     playerCards.innerHTML = playerHand.map(card => `<span class="${['♥', '♦'].includes(card.suit) ? 'red-card' : ''}">${card.value}${card.suit}</span>`).join(' ');
-    dealerTotal.textContent = `Total: ${calculateHandValue(dealerHand)}`;
-    playerTotal.textContent = `Total: ${calculateHandValue(playerHand)}`;
+    dealerTotal.textContent = ` (Total = ${calculateHandValue(dealerHand)})`;
+    playerTotal.textContent = `(Total = ${calculateHandValue(playerHand)})`;
     balanceAmount.textContent = balance;
     betAmount.textContent = currentBet;
 }
@@ -208,8 +208,8 @@ function startNewGame() {
     shuffleDeck();
     
     dealerHand.push(dealCard());
-    playerHand.push(dealCard());
     dealerHand.push(dealCard());
+    playerHand.push(dealCard());
     playerHand.push(dealCard());
     
     updateDisplay();
