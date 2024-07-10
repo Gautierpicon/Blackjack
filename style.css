@@ -1,13 +1,18 @@
 /* Styles généraux */
 body {
     font-family: Arial, sans-serif;
-    background-color: #be0000;
+    background-color: #a50000;
     margin: 0;
     padding: 0;
-    min-height: 100vh;
+    min-height: 80vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    transform: scale(1.2); /* Ajustez la valeur selon le niveau de zoom souhaité */
+    transform-origin: top left; /* Origine de la mise à l'échelle */
+    overflow: hidden; /* Empêcher le défilement */
+    width: calc(100% / 1.2); /* Ajuster la largeur en fonction du niveau de zoom */
+    height: calc(100% / 1.2); /* Ajuster la hauteur en fonction du niveau de zoom */
 }
 
 .container {

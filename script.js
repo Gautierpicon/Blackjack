@@ -5,6 +5,7 @@ const dealerTotal = document.getElementById('dealer-total');
 const playerTotal = document.getElementById('player-total');
 const hitButton = document.getElementById('hit-button');
 const standButton = document.getElementById('stand-button');
+const surrenderButton = document.getElementById('surrender-button');
 const messages = document.getElementById('messages');
 const balanceAmount = document.getElementById('balance-amount');
 const betAmount = document.getElementById('bet-amount');
@@ -76,6 +77,18 @@ function updateDisplay() {
     betAmount.textContent = currentBet;
 }
 
+// Vérification du Blackjack
+function checkForBlackjack() {
+    if (calculateHandValue(playerHand) === 21) {
+        endGame("Blackjack ! Vous avez gagné !", Math.floor(currentBet * 2.5));
+        return true;
+    } else if (calculateHandValue(dealerHand) === 21) {
+        endGame("Le croupier a un Blackjack. Vous avez perdu.", -currentBet);
+        return true;
+    }
+    return false;
+}
+
 // Action de tirer une carte pour le joueur
 function playerHit() {
     playerHand.push(dealCard());
@@ -84,6 +97,7 @@ function playerHit() {
     if (calculateHandValue(playerHand) > 21) {
         endGame("Vous avez dépassé 21. Vous avez perdu.", -currentBet);
     }
+    surrenderButton.disabled = true;
 }
 
 // Affichage des cartes du croupier tour par tour
@@ -112,22 +126,11 @@ function evaluateGame() {
     }
 }
 
-// Vérification du Blackjack
-function checkForBlackjack() {
-    if (calculateHandValue(playerHand) === 21) {
-        endGame("Blackjack ! Vous avez gagné !", currentBet * 2.5);
-        return true;
-    } else if (calculateHandValue(dealerHand) === 21) {
-        endGame("Le croupier a un Blackjack. Vous avez perdu.", -currentBet);
-        return true;
-    }
-    return false;
-}
-
 // Action de rester pour le joueur
 function playerStand() {
     hitButton.disabled = true;
     standButton.disabled = true;
+    surrenderButton.disabled = true;
     
     function revealCards() {
         if (calculateHandValue(dealerHand) < 17) {
@@ -142,11 +145,22 @@ function playerStand() {
     revealCards();
 }
 
+// Action d'abandonner
+function surrender() {
+    if (playerHand.length !== 2) {
+        messages.textContent = "L'abandon n'est possible qu'avec deux cartes initiales.";
+        return;
+    }
+    
+    endGame("Vous avez abandonné. Vous récupérez la moitié de votre mise.", -Math.floor(currentBet / 2));
+}
+
 // Fin du jeu
 function endGame(message, betResult) {
     messages.textContent = message;
     hitButton.disabled = true;
     standButton.disabled = true;
+    surrenderButton.disabled = true;
     balance += betResult;
     currentBet = 0;
     updateDisplay();
@@ -172,10 +186,12 @@ function startNewGame() {
     
     hitButton.disabled = false;
     standButton.disabled = false;
+    surrenderButton.disabled = false;
     
     if (checkForBlackjack()) {
         hitButton.disabled = true;
         standButton.disabled = true;
+        surrenderButton.disabled = true;
         enableBetting();
     }
 }
@@ -200,7 +216,6 @@ function placeBet() {
 function enableBetting() {
     betInput.disabled = false;
     placeBetButton.disabled = false;
-    betInput.value = '';
 }
 
 // Désactiver les éléments de mise
@@ -212,6 +227,7 @@ function disableBetting() {
 // Ajout des écouteurs d'événements pour les boutons
 hitButton.addEventListener('click', playerHit);
 standButton.addEventListener('click', playerStand);
+surrenderButton.addEventListener('click', surrender);
 placeBetButton.addEventListener('click', placeBet);
 
 // Initialisation du jeu
@@ -219,3 +235,4 @@ updateDisplay();
 enableBetting();
 hitButton.disabled = true;
 standButton.disabled = true;
+surrenderButton.disabled = true;
