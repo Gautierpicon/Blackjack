@@ -1,4 +1,4 @@
-// Récupération des éléments DOM
+// éléments DOM
 const messages = document.getElementById('messages');
 const betInput = document.getElementById('bet-input');
 const betAmount = document.getElementById('bet-amount');
@@ -83,7 +83,7 @@ function checkForBlackjack() {
         endGame("Blackjack ! Vous avez gagné !", Math.floor(currentBet * 2.5));
         return true;
     } else if (calculateHandValue(dealerHand) === 21) {
-        endGame("Le croupier a un Blackjack. Vous avez perdu.", -currentBet);
+        endGame("Le croupier a un Blackjack. Vous avez perdu.", Math.floor(currentBet - currentBet));
         return true;
     }
     return false;
@@ -95,7 +95,7 @@ function playerHit() {
     updateDisplay();
     
     if (calculateHandValue(playerHand) > 21) {
-        endGame("Vous avez dépassé 21. Vous avez perdu.", -currentBet);
+        endGame("Vous avez dépassé 21. Vous avez perdu.", Math.floor(currentBet - currentBet));
     }
     surrenderButton.disabled = true;
 }
@@ -116,13 +116,13 @@ function evaluateGame() {
     const dealerValue = calculateHandValue(dealerHand);
     
     if (dealerValue > 21) {
-        endGame("Le croupier a dépassé 21. Vous avez gagné !", currentBet);
+        endGame("Le croupier a dépassé 21. Vous avez gagné !",Math.floor(currentBet * 2));
     } else if (playerValue > dealerValue) {
-        endGame("Vous avez gagné !", currentBet);
+        endGame("Vous avez gagné !", Math.floor(currentBet * 2));
     } else if (playerValue < dealerValue) {
-        endGame("Vous avez perdu.", -currentBet);
+        endGame("Vous avez perdu.", Math.floor(currentBet - currentBet));
     } else {
-        endGame("Égalité !", 0);
+        endGame("Égalité !", currentBet);
     }
 }
 
@@ -152,7 +152,7 @@ function surrender() {
         return;
     }
     
-    endGame("Vous avez abandonné. Vous récupérez la moitié de votre mise.", -Math.floor(currentBet / 2));
+    endGame("Vous avez abandonné. Vous récupérez la moitié de votre mise.", Math.floor(currentBet / 2));
 }
 
 // Fin du jeu
