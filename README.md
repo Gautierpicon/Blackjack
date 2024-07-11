@@ -11,7 +11,11 @@
    ```
    git clone https://github.com/Gautierpicon/blackjack-casino.git
    ```
-   
+2. Naviguez dans le répertoire du projet :
+   ```
+   cd blackjack
+   ```
+
 ## Lancement du jeu
 Ouvrez le fichier `index.html` dans votre navigateur web. Aucun serveur n'est nécessaire pour exécuter ce jeu, il fonctionne entièrement côté client.
 
