@@ -6,7 +6,7 @@
 
 body {
     font-family: Arial, sans-serif;
-    background: url(https://wallpapercave.com/wp/wp12738484.jpg);
+    background: url(image/wallpaper.jpg);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -54,8 +54,16 @@ h2 {
     margin-bottom: 10px;
 }
 
-#balance, #bet {
+#balance, #bet{
+    font-weight: 700;
     font-size: 24px;
+    margin-bottom: 15px;
+}
+
+#best-balance, #max-bet {
+    text-align: right;
+    padding-right: 10px;
+    font-size: 20px;
     margin-bottom: 15px;
 }
 
@@ -68,7 +76,7 @@ h2 {
 #bet-input {
     padding: 10px;
     font-size: 18px;
-    border-radius: 5px 5px 5px 5px;
+    border-radius: 5px;
     border: 2px solid #ccc;
     flex: 1;
     height: 50px;
@@ -85,7 +93,7 @@ h2 {
     margin-top: 10px;
     font-size: 18px;
     border: none;
-    border-radius: 5px 5px 5px 5px;
+    border-radius: 5px;
     cursor: pointer;
     height: 50px;
 }
@@ -98,6 +106,10 @@ h2 {
     min-height: 80px;
     margin-bottom: 15px;
     font-size: 36px;
+}
+
+.red-card {
+    color: red;
 }
 
 .action {
@@ -119,7 +131,7 @@ button {
 }
 
 button:hover {
-    background-color: #163b0c;
+    background-color: #1b440f;
 }
 
 button:disabled {
@@ -132,7 +144,7 @@ button:disabled {
     margin-top: 20px;
     font-weight: bold;
     color: #e74c3c;
-    font-size: 20px;
+    font-size: 25px;
 }
 
 .rules ul {
@@ -141,10 +153,6 @@ button:disabled {
 
 .rules li {
     margin-bottom: 15px;
-}
-
-.red-card {
-    color: red;
 }
 
 .rules a {

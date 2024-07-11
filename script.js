@@ -8,16 +8,20 @@ const playerCards = document.getElementById('player-cards');
 const dealerTotal = document.getElementById('dealer-total');
 const playerTotal = document.getElementById('player-total');
 const standButton = document.getElementById('stand-button');
+const maxBetAmount = document.getElementById('max-bet-amount');
 const balanceAmount = document.getElementById('balance-amount');
 const placeBetButton = document.getElementById('place-bet-button');
 const surrenderButton = document.getElementById('surrender-button');
 const doubleDownButton = document.getElementById('double-down-button');
+const bestBalanceAmount = document.getElementById('best-balance-amount');
 
 let deck = [];
 let dealerHand = [];
 let playerHand = [];
+let maxBet = 0;
 let balance = 300;
 let currentBet = 0;
+let bestBalance = 300;
 
 // Creation of cards
 function createDeck() {
@@ -76,6 +80,8 @@ function updateDisplay() {
     playerTotal.textContent = `(Total = ${calculateHandValue(playerHand)})`;
     balanceAmount.textContent = balance;
     betAmount.textContent = currentBet;
+    bestBalanceAmount.textContent = bestBalance;
+    maxBetAmount.textContent = maxBet;
 }
 
 // Check Blackjack 
@@ -192,6 +198,9 @@ function endGame(message, betResult) {
     surrenderButton.disabled = true;
     doubleDownButton.disabled = true;
     balance += betResult;
+    if (balance > bestBalance) {
+        bestBalance = balance;
+    }
     currentBet = 0;
     updateDisplay();
     enableBetting();
@@ -242,6 +251,9 @@ function placeBet() {
     }
     
     currentBet = betValue;
+    if (currentBet > maxBet) {
+        maxBet = currentBet;
+    }
     balance -= currentBet;
     updateDisplay();
     disableBetting();
