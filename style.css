@@ -6,7 +6,7 @@
 
 body {
     font-family: Arial, sans-serif;
-    background: url(https://www.shutterstock.com/image-photo/black-jack-suited-spades-room-600nw-559343281.jpg);
+    background: url(https://wallpapercave.com/wp/wp12738484.jpg);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -119,7 +119,7 @@ button {
 }
 
 button:hover {
-    background-color: #490b0b;
+    background-color: #163b0c;
 }
 
 button:disabled {
