@@ -109,7 +109,7 @@ h2 {
 
 button {
     padding: 12px 24px;
-    font-size: 22px;
+    font-size: 23px;
     cursor: pointer;
     background-color: #242424;
     color: white;
@@ -132,7 +132,7 @@ button:disabled {
     margin-top: 20px;
     font-weight: bold;
     color: #e74c3c;
-    font-size: 18px;
+    font-size: 20px;
 }
 
 .rules ul {

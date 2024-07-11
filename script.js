@@ -19,7 +19,7 @@ let playerHand = [];
 let balance = 300;
 let currentBet = 0;
 
-// Creation of the cards
+// Creation of cards
 function createDeck() {
     const suits = ['♠', '♥', '♦', '♣'];
     const values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
@@ -39,7 +39,7 @@ function shuffleDeck() {
     }
 }
 
-// Distribution d'une carte
+// Dealing a card
 function dealCard() {
     return deck.pop();
 }
