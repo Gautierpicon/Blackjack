@@ -1,11 +1,7 @@
 # Blackjack Casino
 
-## Description
-Blackjack Casino est une implémentation web interactive du jeu de casino classique, le Blackjack. Ce projet offre une expérience de jeu immersive avec une interface utilisateur intuitive, des règles clairement énoncées et un suivi des statistiques de jeu.
-
 ## Fonctionnalités
-- Interface utilisateur intuitive et réactive
-- Règles du Blackjack clairement expliquées
+- Règles du Blackjack clairement expliquées et accessible meme durant la partie
 - Gestion des mises avec suivi du solde
 - Actions de jeu : Tirer, Rester, Abandonner, Double Down
 - Suivi du meilleur solde et de la plus grosse mise
