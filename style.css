@@ -1,52 +1,127 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #a50000;
+* {
     margin: 0;
     padding: 0;
-    min-height: 150vh;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: url(https://wallpapercave.com/wp/wp12738484.jpg);
     display: flex;
     justify-content: center;
     align-items: center;
-    transform: scale(1.33);
-    transform-origin: top left;
-    overflow: hidden;
-    width: calc(100% / 1.33);
-    height: calc(100% / 1.33);
+    min-height: 100vh;
+    padding: 20px;
 }
 
 .container {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    align-items: stretch;
+    max-width: 1600px;
     width: 100%;
-    max-width: 1200px;
-    margin: 20px;
-    flex-wrap: wrap;
+}
+
+.game-area, .rules {
+    padding: 20px;
+    height: auto;
+    overflow-y: auto;
 }
 
 .game-area {
     background-color: white;
-    padding: 20px;
-    border-radius: 10px;
+    border-radius: 10px 0 0 10px;
     flex: 1;
-    min-width: 300px;
+    display: flex;
+    flex-direction: column;
 }
 
 .rules {
     background-color: #f0f0f0;
-    padding: 20px;
-    border-radius: 10px;
+    border-radius: 0 10px 10px 0;
     flex: 1;
-    min-width: 300px;
+    font-size: 22px;
 }
 
-h1, h2 {
-    color: #000000;
+h1 {
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-size: 24px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+#balance, #bet{
+    font-weight: 700;
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+#best-balance, #max-bet {
+    text-align: right;
+    padding-right: 10px;
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+.bet-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#bet-input {
+    padding: 10px;
+    font-size: 18px;
+    border-radius: 5px;
+    border: 2px solid #ccc;
+    flex: 1;
+    height: 50px;
+}
+
+#bet-input, #place-bet-button {
+    width: auto;
+    min-width: 200px;
+    max-width: 300px;
+}
+
+#place-bet-button {
+    padding: 10px 20px;
+    margin-top: 10px;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    height: 50px;
+}
+
+#dealer-hand, #player-hand {
+    margin-top: 20px;
+}
+
+.cards-container {
+    min-height: 80px;
+    margin-bottom: 15px;
+    font-size: 36px;
+}
+
+.red-card {
+    color: red;
+}
+
+.action {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
 }
 
 button {
-    margin: 10px 10px 10px 0;
-    padding: 10px 20px;
-    font-size: 16px;
+    padding: 12px 24px;
+    font-size: 23px;
     cursor: pointer;
     background-color: #242424;
     color: white;
@@ -56,7 +131,7 @@ button {
 }
 
 button:hover {
-    background-color: #490b0b;
+    background-color: #1b440f;
 }
 
 button:disabled {
@@ -65,28 +140,11 @@ button:disabled {
 }
 
 #messages {
+    min-height: 40px;
     margin-top: 20px;
     font-weight: bold;
     color: #e74c3c;
-}
-
-#balance, #bet {
-    margin-bottom: 10px;
-    font-size: 18px;
-}
-
-#bet-input {
-    padding: 10px;
-    font-size: 16px;
-    margin-right: 10px;
-    border-radius: 5px;
-    border: 2px solid;
-    width: 145px;
-}
-
-#dealer-hand, #player-hand {
-    margin-top: 15px;
-    font-size: 18px;
+    font-size: 25px;
 }
 
 .rules ul {
@@ -94,14 +152,9 @@ button:disabled {
 }
 
 .rules li {
-    margin-bottom: 25px;
+    margin-bottom: 15px;
 }
 
-.red-card {
-    color: red;
-}
-
-/* New style for links in the rules section */
 .rules a {
     color: #000000;
 }

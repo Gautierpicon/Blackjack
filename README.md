@@ -26,7 +26,14 @@ Blackjack Casino est une implémentation web interactive du jeu de casino classi
    ```
 
 ## Lancement du jeu
-Ouvrez le fichier `index.html` dans votre navigateur web préféré. Aucun serveur n'est nécessaire pour exécuter ce jeu, il fonctionne entièrement côté client.
+Ouvrez le fichier `index.html` dans votre navigateur web. Aucun serveur n'est nécessaire pour exécuter ce jeu, il fonctionne entièrement côté client.
+
+## Règles du Blackjack
+- Le but est d'avoir une main plus proche de 21 que le croupier sans dépasser 21.
+- Les cartes numérotées valent leur valeur faciale, les figures (J, Q, K) valent 10, et l'As vaut 1 ou 11.
+- le jeu ne se joue pas tour par tour. vous jouez d'abord et le croupier joue après vous
+
+Des regles plus précises et detaillées sont présentes dans le jeu
 
 ## Comment jouer
 1. Entrez votre mise dans le champ prévu à cet effet.
@@ -38,10 +45,3 @@ Ouvrez le fichier `index.html` dans votre navigateur web préféré. Aucun serve
    - "Double Down" pour doubler votre mise et recevoir une dernière carte (uniquement au premier tour)
 4. Le croupier joue son tour automatiquement après que vous ayez terminé le vôtre.
 5. Le gagnant est déterminé et votre solde est mis à jour en conséquence.
-
-## Règles du Blackjack
-- Le but est d'avoir une main plus proche de 21 que le croupier sans dépasser 21.
-- Les cartes numérotées valent leur valeur faciale, les figures (J, Q, K) valent 10, et l'As vaut 1 ou 11.
-- le jeu ne se joue pas tour par tour. vous jouez d'abord et le croupier joue après vous
-
-Des regles plus précises et detaillées sont présentes dans le jeu
