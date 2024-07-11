@@ -22,6 +22,7 @@ let maxBet = 0;
 let balance = 300;
 let currentBet = 0;
 let bestBalance = 300;
+let isDealerCardHidden = true;
 
 // Creation of cards
 function createDeck() {
@@ -49,11 +50,14 @@ function dealCard() {
 }
 
 // Calculating value of a hand
-function calculateHandValue(hand) {
+function calculateHandValue(hand, hideSecondCard = false) {
     let value = 0;
     let aces = 0;
     
-    for (let card of hand) {
+    for (let i = 0; i < hand.length; i++) {
+        if (hideSecondCard && i === 1) continue;
+        
+        let card = hand[i];
         if (card.value === 'A') {
             aces += 1;
             value += 11;
@@ -74,9 +78,20 @@ function calculateHandValue(hand) {
 
 // Updating the display
 function updateDisplay() {
-    dealerCards.innerHTML = dealerHand.map(card => `<span class="${['♥', '♦'].includes(card.suit) ? 'red-card' : ''}">${card.value}${card.suit}</span>`).join(' ');
-    playerCards.innerHTML = playerHand.map(card => `<span class="${['♥', '♦'].includes(card.suit) ? 'red-card' : ''}">${card.value}${card.suit}</span>`).join(' ');
-    dealerTotal.textContent = ` (Total = ${calculateHandValue(dealerHand)})`;
+    dealerCards.innerHTML = dealerHand.map((card, index) => 
+        isDealerCardHidden && index === 1 ? 
+        '<span class="hidden-card">🂠</span>' : 
+        `<span class="${['♥', '♦'].includes(card.suit) ? 'red-card' : ''}">${card.value}${card.suit}</span>`
+    ).join(' ');
+    
+    playerCards.innerHTML = playerHand.map(card => 
+        `<span class="${['♥', '♦'].includes(card.suit) ? 'red-card' : ''}">${card.value}${card.suit}</span>`
+    ).join(' ');
+    
+    dealerTotal.textContent = isDealerCardHidden ? 
+        ` (Total = ${calculateHandValue(dealerHand, true)} + ?)` : 
+        ` (Total = ${calculateHandValue(dealerHand)})`;
+    
     playerTotal.textContent = `(Total = ${calculateHandValue(playerHand)})`;
     balanceAmount.textContent = balance;
     betAmount.textContent = currentBet;
@@ -87,17 +102,28 @@ function updateDisplay() {
 // Check Blackjack 
 function checkForBlackjack() {
     if (calculateHandValue(playerHand) === 21) {
+        revealDealerCard();
         endGame("Blackjack ! Vous avez gagné !", Math.floor(currentBet * 2.5));
         return true;
     } else if (calculateHandValue(dealerHand) === 21) {
+        revealDealerCard();
         endGame("Le croupier a un Blackjack. Vous avez perdu.", 0);
         return true;
     }
     return false;
 }
 
+// Reveal dealer's hidden card
+function revealDealerCard() {
+    isDealerCardHidden = false;
+    updateDisplay();
+}
+
 // player draws
 function playerHit() {
+    if (isDealerCardHidden) {
+        revealDealerCard();
+    }
     playerHand.push(dealCard());
     updateDisplay();
     
@@ -108,34 +134,11 @@ function playerHit() {
     doubleDownButton.disabled = true;
 }
 
-// Revealing the dealer's cards
-function revealDealerCard(index) {
-    if (index < dealerHand.length) {
-        updateDisplay();
-        setTimeout(() => revealDealerCard(index + 1), 1000);
-    } else {
-        evaluateGame();
-    }
-}
-
-// Evaluation of the game after the dealer's turn
-function evaluateGame() {
-    const playerValue = calculateHandValue(playerHand);
-    const dealerValue = calculateHandValue(dealerHand);
-    
-    if (dealerValue > 21) {
-        endGame("Le croupier a dépassé 21. Vous avez gagné !", currentBet * 2);
-    } else if (playerValue > dealerValue) {
-        endGame("Vous avez gagné !", currentBet * 2);
-    } else if (playerValue < dealerValue) {
-        endGame("Vous avez perdu.", 0);
-    } else {
-        endGame("Égalité !", currentBet);
-    }
-}
-
 // player stand 
 function playerStand() {
+    if (isDealerCardHidden) {
+        revealDealerCard();
+    }
     hitButton.disabled = true;
     standButton.disabled = true;
     surrenderButton.disabled = true;
@@ -154,26 +157,38 @@ function playerStand() {
     revealCards();
 }
 
+// Evaluation of the game after the dealer's turn
+function evaluateGame() {
+    const playerValue = calculateHandValue(playerHand);
+    const dealerValue = calculateHandValue(dealerHand);
+    
+    if (dealerValue > 21) {
+        endGame("Le croupier a dépassé 21. Vous avez gagné !", currentBet * 2);
+    } else if (playerValue > dealerValue) {
+        endGame("Vous avez gagné !", currentBet * 2);
+    } else if (playerValue < dealerValue) {
+        endGame("Vous avez perdu.", 0);
+    } else {
+        endGame("Égalité !", currentBet);
+    }
+}
+
 // player surrender
 function surrender() {
-    if (playerHand.length !== 2) {
-        messages.textContent = "L'abandon n'est autorisé qu'avec les deux cartes initiales.";
-        return;
-    }
-    
+    revealDealerCard();
     endGame("Vous avez abandonné. Vous récupérez la moitié de votre mise.", Math.floor(currentBet / 2));
 }
 
 // player doubleDown
 function doubleDown() {
-    if (playerHand.length !== 2) {
-        messages.textContent = "Le double n'est autorisé qu'avec les deux cartes initiales.";
-        return;
-    }
 
     if (balance < currentBet) {
         messages.textContent = "Solde insuffisant pour doubler.";
         return;
+    }
+
+    if (isDealerCardHidden) {
+        revealDealerCard();
     }
 
     balance -= currentBet;
@@ -212,6 +227,7 @@ function startNewGame() {
     dealerHand = [];
     playerHand = [];
     messages.textContent = '';
+    isDealerCardHidden = true;
     
     createDeck();
     shuffleDeck();
