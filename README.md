@@ -6,11 +6,6 @@
 - Actions de jeu : Tirer, Rester, Abandonner, Double Down
 - Suivi du meilleur solde et de la plus grosse mise
 
-## Technologies utilisées
-- HTML5
-- CSS
-- JavaScript
-
 ## Installation
 1. Clonez ce dépôt sur votre machine locale :
    ```
