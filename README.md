@@ -11,9 +11,7 @@
    ```
    git clone https://github.com/Gautierpicon/blackjack-casino.git
    ```
-   
-## Lancement du jeu
-Ouvrez le fichier `index.html` dans votre navigateur web. Aucun serveur n'est nécessaire pour exécuter ce jeu, il fonctionne entièrement côté client.
+Puis Ouvrez le fichier `index.html` dans votre navigateur web. Aucun serveur n'est nécessaire pour exécuter ce jeu, il fonctionne entièrement côté client.
 
 ## Règles du Blackjack
 - Le but est d'avoir une main plus proche de 21 que le croupier sans dépasser 21.
