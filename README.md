@@ -13,7 +13,7 @@
    ```
 2. Naviguez dans le répertoire du projet :
    ```
-   cd blackjack
+   cd blackjack-casino
    ```
 
 ## Lancement du jeu
