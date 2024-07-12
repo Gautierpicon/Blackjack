@@ -1,6 +1,6 @@
 # Blackjack Casino
 
-# URL
+## URL
 https://gautierpicon.github.io/BlackjackCasino/
 
 ## Fonctionnalités
