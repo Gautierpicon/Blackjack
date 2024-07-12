@@ -12,8 +12,7 @@
         <!-- Game section -->
         <div class="game-area">
             <h1>Blackjack Casino</h1>
-            <div id="best-balance">Meilleur solde: $<span id="best-balance-amount">300</span></div>
-            <div id="max-bet">Plus grosse mise: $<span id="max-bet-amount">0</span></div>
+            <a href="statistics.html" class="stats-link">Voir les statistiques</a>
             <div id="balance">Solde: $<span id="balance-amount">300</span></div>
             <div id="bet">Mise: $<span id="bet-amount">0</span></div>
             <input type="number" id="bet-input" min="1" max="300" placeholder="Entrez votre mise">
@@ -30,20 +29,21 @@
             <div class="action">
                 <button id="hit-button">Tirer</button>
                 <button id="stand-button">Rester</button>
-                <button id="surrender-button">Abandonner</button>
                 <button id="double-down-button">Double Down</button>
+                <button id="surrender-button">Abandonner</button>
             </div>    
         </div>
         <!-- Rule section -->
         <div class="rules">
-            <h1>Règles du Blackjack</h1>
+            <h1>Règles principales:</h1>
             <ul>
                 <li>Le but est d'avoir une main plus proche de 21 que le croupier sans dépasser 21. Dépasser 21 points entraîne une défaite immédiate.</li>
                 <li>Les cartes ont differentes valeurs : <br>
                     - Les cartes numérotées valent leur valeur faciale, <br>
                     - Les buches (J, Q, K) valent 10, <br>
-                    - L'As vaut 1 ou 11, selon ce qui est le plus avantageux et peut changer de valeur au cours de la partie.</li>
+                    - L'As vaut 1 ou 11, selon ce qui est le plus avantageux et peut changer de &nbsp;&nbsp;valeur au cours de la partie.</li>
                 <li>Le croupier ne peut plus tirer une fois arrivé à un score de 17 ou plus</li>
+                <li>Une des deux premieres cartes du coupier est cacher puis est révélé suite à la premiere action du joueur</li>
                 <li>le jeu ne se joue pas tour par tour. vous jouez d'abord et le croupier joue après vous</li>
                 <li>L'action "Abandonner" permet de mettre fin à la partie tout en récupérant la moitié de sa mise. Cette action est possible uniquement en premier coup.</li>
                 <li>L'action "Double Down" double votre mise et vous fait tirer une derniere carte. Cette action est possible uniquement en premier coup.</li>
