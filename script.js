@@ -16,9 +16,10 @@ const doubleDownButton = document.getElementById('double-down-button');
 let deck = [];
 let dealerHand = [];
 let playerHand = [];
-let balance = 300;
+let balance = parseInt(localStorage.getItem('balance')) || 300;
 let currentBet = 0;
 let isDealerCardHidden = true;
+let isGameInProgress = false;
 
 // Creation of cards
 function createDeck() {
@@ -211,8 +212,12 @@ function endGame(message, betResult) {
     currentBet = 0;
     updateDisplay();
     enableBetting();
+    isGameInProgress = false;
 
-    // Mise à jour des statistiques
+    // Save balance to localStorage
+    localStorage.setItem('balance', balance);
+
+    // Update statistics
     incrementStat('gamesPlayed');
     if (betResult > currentBet) {
         incrementStat('wins');
@@ -257,6 +262,11 @@ function startNewGame() {
 
 // Placing a bet
 function placeBet() {
+    if (isGameInProgress) {
+        messages.textContent = "Impossible de placer une mise pendant une partie en cours.";
+        return;
+    }
+
     const betValue = parseInt(betInput.value);
     if (isNaN(betValue) || betValue <= 0) {
         messages.textContent = "Mise invalide. Veuillez entrer un montant valide.";
@@ -273,6 +283,7 @@ function placeBet() {
     balance -= currentBet;
     updateDisplay();
     disableBetting();
+    isGameInProgress = true;
     startNewGame();
 }
 
@@ -288,7 +299,7 @@ function disableBetting() {
     placeBetButton.disabled = true;
 }
 
-// Fonction pour mettre à jour une statistique
+// Function to update a statistic
 function updateStat(key, value) {
     const currentValue = localStorage.getItem(key) ? parseFloat(localStorage.getItem(key)) : 0;
     if (value > currentValue) {
@@ -296,10 +307,28 @@ function updateStat(key, value) {
     }
 }
 
-// Fonction pour incrémenter une statistique
+// Function to increment a statistic
 function incrementStat(key) {
     const currentValue = localStorage.getItem(key) ? parseFloat(localStorage.getItem(key)) : 0;
     localStorage.setItem(key, currentValue + 1);
+}
+
+// Function to initialize the game state
+function initializeGameState() {
+    updateDisplay();
+    if (isGameInProgress) {
+        disableBetting();
+        hitButton.disabled = false;
+        standButton.disabled = false;
+        surrenderButton.disabled = false;
+        doubleDownButton.disabled = false;
+    } else {
+        enableBetting();
+        hitButton.disabled = true;
+        standButton.disabled = true;
+        surrenderButton.disabled = true;
+        doubleDownButton.disabled = true;
+    }
 }
 
 // Added event listeners for buttons
@@ -310,9 +339,4 @@ surrenderButton.addEventListener('click', surrender);
 doubleDownButton.addEventListener('click', doubleDown);
 
 // Initializing the game
-updateDisplay();
-enableBetting();
-hitButton.disabled = true;
-standButton.disabled = true;
-surrenderButton.disabled = true;
-doubleDownButton.disabled = true;
+document.addEventListener('DOMContentLoaded', initializeGameState);
