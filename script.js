@@ -8,20 +8,16 @@ const playerCards = document.getElementById('player-cards');
 const dealerTotal = document.getElementById('dealer-total');
 const playerTotal = document.getElementById('player-total');
 const standButton = document.getElementById('stand-button');
-const maxBetAmount = document.getElementById('max-bet-amount');
 const balanceAmount = document.getElementById('balance-amount');
 const placeBetButton = document.getElementById('place-bet-button');
 const surrenderButton = document.getElementById('surrender-button');
 const doubleDownButton = document.getElementById('double-down-button');
-const bestBalanceAmount = document.getElementById('best-balance-amount');
 
 let deck = [];
 let dealerHand = [];
 let playerHand = [];
-let maxBet = 0;
 let balance = 300;
 let currentBet = 0;
-let bestBalance = 300;
 let isDealerCardHidden = true;
 
 // Creation of cards
@@ -95,14 +91,13 @@ function updateDisplay() {
     playerTotal.textContent = `(Total = ${calculateHandValue(playerHand)})`;
     balanceAmount.textContent = balance;
     betAmount.textContent = currentBet;
-    bestBalanceAmount.textContent = bestBalance;
-    maxBetAmount.textContent = maxBet;
 }
 
 // Check Blackjack 
 function checkForBlackjack() {
     if (calculateHandValue(playerHand) === 21) {
         revealDealerCard();
+        incrementStat('blackjacks');
         endGame("Blackjack ! Vous avez gagné !", Math.floor(currentBet * 2.5));
         return true;
     } else if (calculateHandValue(dealerHand) === 21) {
@@ -181,7 +176,6 @@ function surrender() {
 
 // player doubleDown
 function doubleDown() {
-
     if (balance < currentBet) {
         messages.textContent = "Solde insuffisant pour doubler.";
         return;
@@ -213,12 +207,20 @@ function endGame(message, betResult) {
     surrenderButton.disabled = true;
     doubleDownButton.disabled = true;
     balance += betResult;
-    if (balance > bestBalance) {
-        bestBalance = balance;
-    }
+    updateStat('bestBalance', balance);
     currentBet = 0;
     updateDisplay();
     enableBetting();
+
+    // Mise à jour des statistiques
+    incrementStat('gamesPlayed');
+    if (betResult > currentBet) {
+        incrementStat('wins');
+        updateStat('maxWin', betResult - currentBet);
+    } else if (betResult < currentBet) {
+        incrementStat('losses');
+        updateStat('maxLoss', currentBet - betResult);
+    }
 }
 
 // Starting a new game
@@ -267,9 +269,7 @@ function placeBet() {
     }
     
     currentBet = betValue;
-    if (currentBet > maxBet) {
-        maxBet = currentBet;
-    }
+    updateStat('maxBet', currentBet);
     balance -= currentBet;
     updateDisplay();
     disableBetting();
@@ -286,6 +286,20 @@ function enableBetting() {
 function disableBetting() {
     betInput.disabled = true;
     placeBetButton.disabled = true;
+}
+
+// Fonction pour mettre à jour une statistique
+function updateStat(key, value) {
+    const currentValue = localStorage.getItem(key) ? parseFloat(localStorage.getItem(key)) : 0;
+    if (value > currentValue) {
+        localStorage.setItem(key, value);
+    }
+}
+
+// Fonction pour incrémenter une statistique
+function incrementStat(key) {
+    const currentValue = localStorage.getItem(key) ? parseFloat(localStorage.getItem(key)) : 0;
+    localStorage.setItem(key, currentValue + 1);
 }
 
 // Added event listeners for buttons
