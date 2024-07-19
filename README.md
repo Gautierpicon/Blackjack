@@ -1,7 +1,7 @@
 # Blackjack Casino
 
 ## URL
-https://gautierpicon.github.io/BlackjackCasino/
+https://gautierpicon.github.io/Blackjack-Casino/
 
 ## Fonctionnalités
 - Règles du Blackjack clairement expliquées et accessible meme durant la partie
