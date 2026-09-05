@@ -1,0 +1,16 @@
+{
+	"style": "new-york",
+	"tailwind": {
+		"baseColor": "zinc",
+		"css": "src/routes/layout.css"
+	},
+	"aliases": {
+		"lib": "$lib",
+		"components": "$lib/components",
+		"utils": "$lib/utils",
+		"hooks": "$lib/hooks",
+		"ui": "$lib/components/ui"
+	},
+	"typescript": true,
+	"registries": {}
+}
